@@ -1,6 +1,6 @@
 const { userModel } = require("../models/usermodel")
 const router = require ("express").Router()
-const Jio = require("joi")
+const joi = require("joi")
 const bcrypt = require("bcrypt")
 
 
@@ -23,14 +23,15 @@ router.post("/", async (req,res)=>{
         const token = checkUser.generateAuthToken();
         res.status(200).send({data: token, message: "Logged in successfully"})
     } catch (error) {
+        console.log(error)
         res.status(500).send({message: "Internal server error"})
     }
 })
 
 const validate = (data) => {
-    const Schema = Jio.object({
-        userEmail:Joi.string().email().required().label("Email"),
-        userPass:Jio.string().required().label("Password")  
+    const Schema = joi.object({
+        userEmail:joi.string().email().required().label("Email"),
+        userPass:joi.string().required().label("Password")  
     })
     return Schema.validate(data)
 }

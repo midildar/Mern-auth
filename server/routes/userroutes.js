@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt")
 
 
 router.post("/",async(req,res)=>{
-    //console.log(req.body);
+    console.log(req.body);
      try {
         const {error} = validate(req.body)
         if (error){
@@ -18,6 +18,7 @@ router.post("/",async(req,res)=>{
         const hashPassword = await bcrypt.hash(req.body.userPass,salt)
 
         await new userModel({...req.body,userPass:hashPassword}).save()
+        console.log(req.body);
         res.status(201).send({message:"User created Successfully"})
      } catch (error) {
             res.status(500).send({message: "Internal Server Error"})        
